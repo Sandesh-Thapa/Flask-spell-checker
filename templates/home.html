@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spelling Checker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar bg-dark" data-bs-theme="dark">
+        <div class="container-fluid d-flex justify-content-center p-3">
+            <form class="d-flex" method="POST" action="/">
+                <input type="text" class="form-control text-dark me-2" id="website" name="website" placeholder="Enter valid website (https://...)">
+                <button type="submit" class="btn btn-primary">Check</button>
+            </form>
+        </div>
+    </nav>
+    <div class="mt-5">
+        {% if results|length == 0 %}
+            <h3 class="text-center">Enter website to check spelling</h3>
+        {% elif results.error %}
+            <h3 class="text-center text-danger">{{ results.error }}</h3>
+        {% else %}
+            <h5 class="text-center mb-3">Website: <a href="{{results.website}}">{{results.website}}</a></h5>
+            {% for h1 in results.h1 %}
+                <h5 class="text-center mb-3">Word: {{h1[0].bad}}</h5>
+                <h5 class="text-center mb-3">Description: {{h1[0].description.en}}</h5>
+                <h5 class="text-center mb-5">Suggestions: {% for suggestion in h1[0].better %}{{suggestion}}, {% endfor %}</h5>
+            {% endfor %}
+            {% for h2 in results.h2 %}
+                <h5 class="text-center mb-3">Word: {{h2[0].bad}}</h5>
+                <h5 class="text-center mb-3">Description: {{h2[0].description.en}}</h5>
+                <h5 class="text-center mb-5">Suggestions: {% for suggestion in h2[0].better %}{{suggestion}}, {% endfor %}</h5>
+            {% endfor %}
+            {% if results.h1|length < 1 and results.h2|length < 1 %}
+                <h5 class="text-center">No mis spelled words found!</h5>
+            {% endif %}
+        {% endif %}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+</body>
+</html>
