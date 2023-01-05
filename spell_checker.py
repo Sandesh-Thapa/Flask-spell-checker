@@ -8,7 +8,7 @@ def scrapePage(page):
     Scrape the page to find its 'h1' and 'h2' tags
 
     :param page: request body
-    :return: url and response code
+    :return: h1 tags and h2 tags
     """
     soup = BeautifulSoup(page.text, features="html.parser")
     h1 = soup.find_all('h1')
