@@ -16,13 +16,13 @@ def scrapePage(page):
     return h1, h2
 
 def checkSpelling(text):
-    response = requests.get(URL+text, timeout=60)
+    response = requests.get(URL+text, headers={'User-Agent': ''}, timeout=60)
     return response.json()
 
 def main(website):
     results = {'h1': [], 'h2': []}
     try:
-        page = requests.get(website, timeout=60)
+        page = requests.get(website, headers={'User-Agent': ''}, timeout=60)
         if page.status_code == 404:
             results["error"] = "404 Site not found!"
         elif page.status_code == 403:
